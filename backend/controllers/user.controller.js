@@ -1,6 +1,7 @@
 const userModel = require('../models/user.model');
 const userService = require('../services/user.service');
 const { validationResult } = require('express-validator');
+const blackListTokenModel = require('../models/blackListToken.model')
 
 module.exports.registerUser = async (req, res, next) => {
 
@@ -15,7 +16,7 @@ module.exports.registerUser = async (req, res, next) => {
     const userexist = await userModel.findOne({email}).select('email')
     console.log(userexist)
 
-    if(userexist!=null){
+    if(userexist){
         return res.status(401).json({message:'User is already exist'})
     }
     
@@ -31,7 +32,6 @@ module.exports.registerUser = async (req, res, next) => {
     const token = user.generateAuthToken();
 
     res.status(201).json({ token, user });
-
 }
 
 module.exports.loginUser=async (req,res,next)=>{
@@ -43,16 +43,15 @@ module.exports.loginUser=async (req,res,next)=>{
     }
 
     const {email,password}=req.body;
-    console.log(req.body)
-
+   
     const user=await userModel.findOne({email}).select('+password')
-    console.log(user)
+    
     if(!user){
         return res.status(401).json({message:'Invalid email or password'})
     }
 
     const isMatch = await user.comparePassword(password);
-    console.log(isMatch)
+    
 
     if(!isMatch){
         return res.status(401).json({message:'Invalid email or password'})
@@ -67,4 +66,15 @@ module.exports.loginUser=async (req,res,next)=>{
 
 module.exports.getUserProfile=async(req,res,next)=>{
     res.status(200).json(req.user)
+}
+
+module.exports.logoutUser = async (req, res, next) => {
+
+    res.clearCookie('token')
+
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[ 1 ]
+
+    await blackListTokenModel.create({token:token})
+
+    res.status(200).json({message:'Logout Successfully'})
 }
