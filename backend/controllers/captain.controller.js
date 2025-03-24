@@ -39,21 +39,20 @@ module.exports.registerCaptain = async (req, res, next) => {
 }
 
 module.exports.loginCaptain = async (req, res) => {
-    const erros = validationResult(req);
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
-
     }
-    const { email ,  password} = req.body;
+    const { email , password} = req.body;
 
-    const captain = await captainModel.findOne({ email}).select('+-password')
+    const captain = await captainModel.findOne({ email}).select('+password')
 
     if (!captain){
         return res.status(400).json({ message: "invalid credentials" })
     }
 
-    const isMatch = await captain.comparePassword(password)
+    const isMatch = await captain.comparepassword(password)
 
     if(!isMatch){
         return res.status(400).json({ message: "Invalid Credentials" })
@@ -66,11 +65,11 @@ module.exports.loginCaptain = async (req, res) => {
     res.status(200).json({token,captain})
 }
 
-module.exports.getUserProfile=async(req,res,next)=>{
-    res.status(200).json(req.user)
+module.exports.getCaptainProfile=async(req,res,next)=>{
+    res.status(200).json(req.captain)
 }
 
-module.exports.logoutUser = async (req, res, next) => {
+module.exports.logoutCaptain = async (req, res, next) => {
 
     res.clearCookie('token')
 
