@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import CaptainSignup from './CaptainSignup'
 
 const CaptainLogin = () => {
 
-  const [captaindata, setCaptaindata] = useState()
+  const [captainLogindata, setCaptainLogindata] = useState()
 
   const { register, reset, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
 
   const onsubmit = (data) => {
-    setCaptaindata(data)
+    setCaptainLogindata(data)
   }
 
   useEffect(() => {
-    console.log(captaindata)
+    console.log(captainLogindata)
     reset()
-  }, [captaindata])
+  }, [captainLogindata])
 
   return (
     <>
@@ -46,8 +47,8 @@ const CaptainLogin = () => {
           <div className=' h-80 mt-12 flex flex-col items-center justify-evenly'>
             <button className='bg-black text-white font-bold rounded px-10 py-2'>Login</button>
 
-            <button className='bg-black text-white font-bold rounded px-10 py-2'>SignUp</button>
-            <p> New Here??
+            <Link to={'/CaptainSignup'} className='bg-black text-white font-bold rounded px-10 py-2'>SignUp</Link>
+            <p> Already have an Account??
               <Link to={'/UserLogin'} className=' text-blue-500 px-1 font-bold rounded  py-2'>Login as User</Link>
             </p>
 
