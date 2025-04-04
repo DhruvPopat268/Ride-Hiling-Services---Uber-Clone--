@@ -3,17 +3,17 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const captainSchema = new mongoose.Schema({
-    fullname: {
-        firstname: {
-            type: String,
-            required: true,
-            minlength: [3, 'First name must be at least 3 characters long'],
-        },
-        lastname: {
-            type: String,
-            minlength: [3, 'Last name must be at least 3 characters long'],
-        }
+
+    firstname: {
+        type: String,
+        required: true,
+        minlength: [3, 'First name must be at least 3 characters long'],
     },
+    lastname: {
+        type: String,
+        minlength: [3, 'Last name must be at least 3 characters long'],
+    },
+
     email: {
         type: String,
         required: true,
@@ -43,45 +43,45 @@ const captainSchema = new mongoose.Schema({
             minlength: [3, 'First name must be at least 3 characters long'],
 
         },
-        plate:{
+        plate: {
             type: String,
             required: true,
             minlength: [3, 'First name must be at least 3 characters long'],
         },
-        capacity:{
+        capacity: {
             type: Number,
             required: true,
             minlength: [1, 'First name must be at least 1 characters long'],
         },
-        vehicleType:{
+        vehicleType: {
             type: String,
             required: true,
-            enum:['car','motorcycle','auto']
+            enum: ['car', 'motorcycle', 'auto']
         }
     },
-    location:{
-        latitude:{
-            type:Number,
+    location: {
+        latitude: {
+            type: Number,
         },
-        longitude:{
-            type:Number,
+        longitude: {
+            type: Number,
         }
     }
 })
 
-captainSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({_id:this._id},process.env.JWT_SECRET,{ expiresIn:'24h'})
+captainSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
     return token;
 }
 
-captainSchema.methods.comparepassword = async function(password) {
-    return await bcrypt.compare(password,this.password);
+captainSchema.methods.comparepassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
 }
 
 captainSchema.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10);
 }
 
-const captainModel=mongoose.model('captain',captainSchema)
+const captainModel = mongoose.model('captain', captainSchema)
 
 module.exports = captainModel;

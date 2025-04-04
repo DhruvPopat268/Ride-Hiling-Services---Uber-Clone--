@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
 
 const UserSignup = () => {
 
@@ -13,8 +14,18 @@ const UserSignup = () => {
   }
 
   useEffect(() => {
-    console.log(userSignupdata)
+    const CreateUser = async() => {
+      try{
+        const res = axios.post('http://localhost:7000/users/register' , userSignupdata)
+      }
+      catch(error){
+        console.log(err)
+      }
+    }
+    CreateUser();
+
     reset()
+
   }, [userSignupdata])
 
   return (

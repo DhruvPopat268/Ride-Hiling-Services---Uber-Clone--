@@ -13,7 +13,15 @@ const CaptainSignup = () => {
   }
 
   useEffect(() => {
-    console.log(captainSignupdata)
+    const CreateCaptain = async() => {
+      try{
+        const res = axios.post('http://localhost:7000/captain/register' , captainSignupdata)
+      }
+      catch(error){
+        console.log(err)
+      }
+    }
+    CreateCaptain();
     reset()
   }, [captainSignupdata])
 
