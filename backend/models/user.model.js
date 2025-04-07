@@ -11,8 +11,14 @@ const userSchema = new mongoose.Schema({
     },
     lastname: {
         type: String,
-        minlength: [3, 'Last name must be at least 3 characters long'],
+        validate: {
+            validator: function (v) {
+                return v.length === 0 || v.length >= 3; // Allow empty, or must be at least 3
+            },
+        },
+        message:'Last name must be at least 3 characters long'
     },
+
 
     email: {
         type: String,

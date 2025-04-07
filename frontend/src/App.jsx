@@ -8,7 +8,6 @@ import CaptainLogin from './pages/CaptainLogin'
 
 const App = () => {
   
-
   return (
     <>
     
