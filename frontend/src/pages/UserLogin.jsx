@@ -1,21 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { formReducer, setFormData } from '../Slicer/FormSlicer'
+import { useNavigate } from 'react-router-dom'
 
 const UserLogin = () => {
 
-  const [userLogindata, setUserLogindata] = useState()
-
   const { register, reset, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
 
-  const onsubmit = (data) => {
-    setUserLogindata(data)
-  }
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log(userLogindata)
-    reset()
-  }, [userLogindata])
+  const dispatch = useDispatch();
+
+  const onsubmit = async (data) => {
+    try {
+
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, data)
+
+      if (response.status === 201) {
+        dispatch(setFormData(data))
+        navigate('/Home')
+      }
+    }
+
+    catch (error) {
+
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message); // 👉 Shows "User is already exist"
+      }
+
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -44,19 +62,16 @@ const UserLogin = () => {
           {errors.password && <span className='text-red-500'>***{errors.password.message}</span>}
 
           <div className=' h-80 mt-12 flex flex-col items-center justify-evenly'>
-            <button className='bg-black text-white font-bold rounded px-10 py-2'>Login</button>
+            <button type='submit' className='bg-black text-white font-bold rounded px-10 py-2'>Login</button>
 
-            <Link  to={'/UserSignup'} className='bg-black text-white font-bold rounded px-10 py-2'>SignUp</Link>
+            <Link to={'/UserSignup'} className='bg-black text-white font-bold rounded px-10 py-2'>SignUp</Link>
             <p> Already have an Account??
               <Link to={'/CaptainLogin'} className=' text-blue-500 px-1 font-bold rounded  py-2'>Login as Captain</Link>
             </p>
 
           </div>
-
         </form>
       </div>
-
-
     </>
   )
 }

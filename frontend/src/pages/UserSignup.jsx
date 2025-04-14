@@ -6,6 +6,8 @@ import { formReducer, setFormData } from '../Slicer/FormSlicer'
 import { useDispatch, useSelector } from 'react-redux'
 import PropDrilling from '../Component/PropDrilling'
 import Redux from '../Component/Redux'
+import { useNavigate } from 'react-router-dom'
+
 
 const UserSignup = () => {
 
@@ -13,27 +15,31 @@ const UserSignup = () => {
 
   const { register, reset, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
 
-  const dispatch = useDispatch();
+  
+
+  const navigate = useNavigate();
 
   const data = useSelector((state) => state.form.formdata)
-  
 
   const onsubmit = async (data) => {
 
     try {
-      dispatch(setFormData(data))
-      const res = await axios.post('http://localhost:7000/users/register', data)
-      reset()
+
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, data)
+
+      if (response.status === 201) {
+        navigate('/UserLogin')
+      }
+
     }
 
-    catch(error) {
-      
+    catch (error) {
+
       if (error.response && error.response.data && error.response.data.message) {
         alert(error.response.data.message); // 👉 Shows "User is already exist"
       } else {
         alert("Something went wrong!");
       }
-  
       console.log(error);
     }
   }
@@ -62,7 +68,7 @@ const UserSignup = () => {
           {errors.email && <span className='text-red-500'>***{errors.email.message}</span>}
 
           <h3 className='text-xl mb-2 mt-3 font-bold'>Enter password</h3>
-          
+
           <input
             className='bg-sky-100 rounded px-4 py-2 border w-full text-lg placeholder:text-base  '
             type='password'
@@ -71,8 +77,7 @@ const UserSignup = () => {
           />
           {errors.password && <span className='text-red-500'>***{errors.password.message}</span>}
 
-          <Redux/>
-          <PropDrilling count={JSON.stringify(data)}/>
+          
           <div className=' h-80 mt-12 flex flex-col items-center justify-evenly'>
             <Link to={'/UserLogin'} className='bg-black text-white font-bold rounded px-10 py-2'>Login</Link>
 

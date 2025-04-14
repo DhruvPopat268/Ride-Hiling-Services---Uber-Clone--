@@ -8,9 +8,12 @@ export const formReducer = createSlice({
     reducers: {
         setFormData(state, action) {
             state.formdata = action.payload;
+        },
+        logout(state){
+            state.formdata = {}
         }
     }
 })
 
-export const { setFormData } = formReducer.actions
+export const { setFormData  , logout } = formReducer.actions
 export default formReducer.reducer

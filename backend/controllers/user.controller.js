@@ -16,8 +16,6 @@ module.exports.registerUser = async (req, res, next) => {
     const userexist = await userModel.findOne({email}).select('email')
     
     if(userexist){
-        
-
         return res.status(401).json({message:'User is already exist'})
     }
     
@@ -53,7 +51,6 @@ module.exports.loginUser=async (req,res,next)=>{
 
     const isMatch = await user.comparePassword(password);
     
-
     if(!isMatch){
         return res.status(401).json({message:'Invalid email or password'})
     }
@@ -62,7 +59,7 @@ module.exports.loginUser=async (req,res,next)=>{
 
     res.cookie('token',token);
 
-    res.status(200).json({token,user})
+    res.status(201).json({token,user})
 }
 
 module.exports.getUserProfile=async(req,res,next)=>{
