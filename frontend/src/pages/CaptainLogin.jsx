@@ -1,22 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import CaptainSignup from './CaptainSignup'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { captainformReducer , setCaptainformdata } from '../Slicer/CaptainFormSlicer'
+import { useNavigate } from 'react-router-dom'
 
-const CaptainLogin = () => {
-
-  const [captainLogindata, setCaptainLogindata] = useState()
+const UserLogin = () => {
 
   const { register, reset, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
 
-  const onsubmit = (data) => {
-    setCaptainLogindata(data)
-  }
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log(captainLogindata)
-    reset()
-  }, [captainLogindata])
+  const dispatch = useDispatch();
+
+  const onsubmit = async (data) => {
+    try {
+
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, data)
+
+      if (response.status === 201) {
+        console.log(response.status)
+        dispatch(setCaptainformdata(data))
+        navigate('/CaptainHome')
+      }
+    }
+
+    catch (error) {
+
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message); // 👉 Shows "User is already exist"
+      }
+
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -45,20 +63,18 @@ const CaptainLogin = () => {
           {errors.password && <span className='text-red-500'>***{errors.password.message}</span>}
 
           <div className=' h-80 mt-12 flex flex-col items-center justify-evenly'>
-            <button className='bg-black text-white font-bold rounded px-10 py-2'>Login</button>
+            <button type='submit' className='bg-black text-white font-bold rounded px-10 py-2'>Login</button>
 
             <Link to={'/CaptainSignup'} className='bg-black text-white font-bold rounded px-10 py-2'>SignUp</Link>
+            
             <p> Already have an Account??
               <Link to={'/UserLogin'} className=' text-blue-500 px-1 font-bold rounded  py-2'>Login as User</Link>
             </p>
 
           </div>
-
         </form>
       </div>
-
     </>
   )
 }
-
-export default CaptainLogin
+export default UserLogin

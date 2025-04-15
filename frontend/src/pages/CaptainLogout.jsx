@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { persistor } from '../Store/store'
 import { useNavigate } from 'react-router-dom';
 import { useSelector , useDispatch } from 'react-redux';
-import {logout} from '../Slicer/FormSlicer'
+import {logout} from '../Slicer/CaptainFormSlicer'
 
-const UserLogout = () => {
+const CaptainLogout = () => {
 
     const navigate = useNavigate();
 
@@ -15,14 +15,14 @@ const UserLogout = () => {
         dispatch(logout())
 
         persistor.purge().then(() => {
-            navigate('/UserLogin')
+            navigate('/CaptainLogin')
         })
 
     }, [navigate])
 
     return (
-        <div>UserLogout</div>
+        <div>CaptainLogout</div>
     )
 }
 
-export default UserLogout
+export default CaptainLogout

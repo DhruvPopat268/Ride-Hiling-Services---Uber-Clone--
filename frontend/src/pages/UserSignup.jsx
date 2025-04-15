@@ -8,14 +8,11 @@ import PropDrilling from '../Component/PropDrilling'
 import Redux from '../Component/Redux'
 import { useNavigate } from 'react-router-dom'
 
-
 const UserSignup = () => {
 
   const [userSignupdata, setUserSignupdata] = useState()
 
   const { register, reset, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
-
-  
 
   const navigate = useNavigate();
 
@@ -30,11 +27,9 @@ const UserSignup = () => {
       if (response.status === 201) {
         navigate('/UserLogin')
       }
-
     }
-
     catch (error) {
-
+      
       if (error.response && error.response.data && error.response.data.message) {
         alert(error.response.data.message); // 👉 Shows "User is already exist"
       } else {

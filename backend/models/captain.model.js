@@ -11,7 +11,12 @@ const captainSchema = new mongoose.Schema({
     },
     lastname: {
         type: String,
-        minlength: [3, 'Last name must be at least 3 characters long'],
+        validate: {
+            validator: function (v) {
+                return v.length === 0 || v.length >= 3; // Allow empty, or must be at least 3
+            },
+        },
+        message:'Last name must be at least 3 characters long'
     },
 
     email: {
@@ -19,7 +24,7 @@ const captainSchema = new mongoose.Schema({
         required: true,
         unique: true,
         lowercase: true,
-        match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email']
+        
     },
     password: {
         type: String,
@@ -29,36 +34,32 @@ const captainSchema = new mongoose.Schema({
     socketId: {
         type: String,
     },
-
     status: {
         type: String,
         enum: ['active', 'inactive'],
         default: 'inactive'
     },
-
-    vehicle: {
-        color: {
-            type: String,
-            required: true,
-            minlength: [3, 'First name must be at least 3 characters long'],
-
-        },
-        plate: {
-            type: String,
-            required: true,
-            minlength: [3, 'First name must be at least 3 characters long'],
-        },
-        capacity: {
-            type: Number,
-            required: true,
-            minlength: [1, 'First name must be at least 1 characters long'],
-        },
-        vehicleType: {
-            type: String,
-            required: true,
-            enum: ['car', 'motorcycle', 'auto']
-        }
+    color: {
+        type: String,
+        required: true,
+        minlength: [3, 'First name must be at least 3 characters long'],
     },
+    plate: {
+        type: String,
+        required: true,
+        minlength: [3, 'First name must be at least 3 characters long'],
+    },
+    capacity: {
+        type: Number,
+        required: true,
+        minlength: [1, 'First name must be at least 1 characters long'],
+    },
+    vehicleType: {
+        type: String,
+        required: true,
+        enum: ['car', 'motorcycle', 'auto']
+    },
+
     location: {
         latitude: {
             type: Number,

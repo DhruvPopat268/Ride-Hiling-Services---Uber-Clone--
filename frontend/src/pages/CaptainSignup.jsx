@@ -1,29 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { useForm , Controller } from 'react-hook-form'
+import axios from 'axios'
+import { formReducer, setFormData } from '../Slicer/FormSlicer'
+import { useDispatch, useSelector } from 'react-redux'
+import PropDrilling from '../Component/PropDrilling'
+import Redux from '../Component/Redux'
+import { useNavigate } from 'react-router-dom'
 
 const CaptainSignup = () => {
 
   const [captainSignupdata, setCaptainSignupdata] = useState()
 
-  const { register, reset, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
+  const { register,control, reset, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
 
-  const onsubmit = (data) => {
-    setCaptainSignupdata(data)
-  }
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const CreateCaptain = async() => {
-      try{
-        const res = axios.post('http://localhost:7000/captain/register' , captainSignupdata)
-      }
-      catch(error){
-        console.log(err)
+  const onsubmit = async (data) => {
+
+    try {
+
+      console.log(data)
+
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, data)
+
+      if (response.status === 201) {
+        navigate('/CaptainLogin')
       }
     }
-    CreateCaptain();
-    reset()
-  }, [captainSignupdata])
+    catch (error) {
+      
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message); // 👉 Shows "User is already exist"
+      } 
+      
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -33,9 +46,10 @@ const CaptainSignup = () => {
 
           <h3 className='text-xl mb-2 font-bold'>Your Name</h3>
 
-          <input placeholder='First name' {...register('firstname',{required:{value:true,message:"first name is mandatory"}})} className='bg-sky-100 rounded px-4 py-2 border w-32 text-lg placeholder:text-base'/>
+          <input placeholder='First name'  {...register('firstname', { required: { value: true, message: "first name is mandatory" } })} className='bg-sky-100 rounded px-4 py-2 border w-32 text-lg placeholder:text-base' />
           {errors.firstname && <span>{errors.firstname.message}</span>}
-          <input placeholder='lastname' {...register('firstname')} className='bg-sky-100 ml-9 mb-3 rounded px-4 py-2 border w-32 text-lg placeholder:text-base'/>
+          
+          <input placeholder='lastname' {...register('lastname')} className='bg-sky-100 ml-9 mb-3 rounded px-4 py-2 border w-32 text-lg placeholder:text-base' />
           {errors.lastname && <span>{errors.lastname.message}</span>}
 
           <h3 className='text-xl mb-2 font-bold'>What's your email</h3>
@@ -58,11 +72,37 @@ const CaptainSignup = () => {
           />
           {errors.password && <span className='text-red-500'>***{errors.password.message}</span>}
 
+          
+          <h3 className='text-xl mb-2 mt-3 font-bold'>Vehicle Information</h3>
+
+          <input placeholder='Color' {...register('color', { required: { value: true, message: "Color is mandatory" } })} className='bg-sky-100 rounded px-4 py-2 border w-32 text-lg placeholder:text-base' />
+          {errors.color && <span>{errors.color.message}</span>}
+
+          <input placeholder='Plate' {...register('plate', { required: { value: true, message: "Color is mandatory" } })} className='bg-sky-100 ml-9 mb-3 rounded px-4 py-2 border w-32 text-lg placeholder:text-base' />
+          {errors.lastname && <span>{errors.lastname.message}</span>}
+
+          <input placeholder='Capacity' type='number' {...register('capacity', { required: { value: true, message: "Capacity is mandatory" } })} className='bg-sky-100 rounded px-4 py-2 border w-32 text-lg placeholder:text-base' />
+          {errors.capacity && <span>{errors.capacity.message}</span>}
+
+          <Controller
+            name="vehicleType"
+            control={control}
+            defaultValue="" // Initial value for the dropdown
+            render={({ field }) => (
+              <select {...field} className='bg-sky-100 ml-9  rounded px-4 py-2 border w-32 text-lg placeholder:text-base'>
+                <option value="" disabled>Veh Type</option>
+                <option value="car">Car</option>
+                <option value="auto">Auto</option>
+                <option value="moto">Moto</option>
+              </select>
+            )}
+          />
+
+          
           <div className=' h-80 mt-12 flex flex-col items-center justify-evenly'>
             <Link to={'/CaptainLogin'} className='bg-black text-white font-bold rounded px-10 py-2'>Login</Link>
 
             <button className='bg-black text-white font-bold rounded px-10 py-2'>SignUp</button>
-            
 
           </div>
 

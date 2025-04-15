@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Home'
+import UserHome from './pages/UserHome'
+import CaptainHome from './pages/CaptainHome'
 import UserSignup from './pages/UserSignup'
 import UserLogin from './pages/UserLogin'
 import CaptainSignup from './pages/CaptainSignup'
 import CaptainLogin from './pages/CaptainLogin'
 import Start from './pages/Start';
 import UserProtectedWrapper from './pages/UserProtectedWrapper';
+import CaptainProtectedWrapper from './pages/CaptainProtectedWrapper';
 import UserLogout from './pages/UserLogout';
+import CaptainLogout from './pages/CaptainLogout'
 
 const App = () => {
 
@@ -20,19 +23,33 @@ const App = () => {
         <Route path='/UserLogin' element={<UserLogin />} />
         <Route path='/CaptainSignup' element={<CaptainSignup />} />
         <Route path='/CaptainLogin' element={<CaptainLogin />} />
-        <Route path='/Home' element={
-          
+        <Route path='/UserHome' element={
+
           <UserProtectedWrapper>
-            <Home/>
+            <UserHome />
           </UserProtectedWrapper>
 
         } />
+
+        <Route path='/CaptainHome' element={
+          <CaptainProtectedWrapper>
+            <CaptainHome />
+          </CaptainProtectedWrapper>
+        } />
+
         <Route path='/UserLogout' element={
-          
+
           <UserProtectedWrapper>
-            <UserLogout/>
-        </UserProtectedWrapper>
-      } />
+            <UserLogout />
+          </UserProtectedWrapper>
+        } />
+        <Route path='/CaptainLogout' element={
+
+          <CaptainProtectedWrapper>
+            <CaptainLogout />
+          </CaptainProtectedWrapper>
+          
+        } />
 
       </Routes>
     </>

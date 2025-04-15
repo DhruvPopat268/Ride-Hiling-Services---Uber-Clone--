@@ -2,14 +2,16 @@ import {configureStore , combineReducers} from '@reduxjs/toolkit'
 import storage from 'redux-persist/lib/storage'
 import {persistReducer , persistStore } from 'redux-persist'
 import formReducer from '../Slicer/FormSlicer'
+import  captainformReducer  from '../Slicer/CaptainFormSlicer'
 
 const persistConfig = {
     key : 'root',
-     storage,
+    storage,
 }
 
 const rootReducer = combineReducers({
-    form:formReducer
+    form:formReducer,
+    captainform: captainformReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -21,7 +21,7 @@ const UserLogin = () => {
 
       if (response.status === 201) {
         dispatch(setFormData(data))
-        navigate('/Home')
+        navigate('/UserHome')
       }
     }
 
