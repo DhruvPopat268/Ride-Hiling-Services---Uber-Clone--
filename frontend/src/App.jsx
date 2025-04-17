@@ -11,6 +11,7 @@ import UserProtectedWrapper from './pages/UserProtectedWrapper';
 import CaptainProtectedWrapper from './pages/CaptainProtectedWrapper';
 import UserLogout from './pages/UserLogout';
 import CaptainLogout from './pages/CaptainLogout'
+import UserLocation  from './pages/UserLocation'
 
 const App = () => {
 
@@ -50,6 +51,7 @@ const App = () => {
           </CaptainProtectedWrapper>
           
         } />
+        <Route path='/UserLocation' element={<UserLocation/>} />
 
       </Routes>
     </>

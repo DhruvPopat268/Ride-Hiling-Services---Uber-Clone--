@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { formReducer, setFormData } from '../Slicer/FormSlicer'
 import { useDispatch, useSelector } from 'react-redux'
-import PropDrilling from '../Component/PropDrilling'
-import Redux from '../Component/Redux'
+
 import { useNavigate } from 'react-router-dom'
 
 const UserSignup = () => {
@@ -71,7 +70,6 @@ const UserSignup = () => {
             placeholder='enter your password'
           />
           {errors.password && <span className='text-red-500'>***{errors.password.message}</span>}
-
           
           <div className=' h-80 mt-12 flex flex-col items-center justify-evenly'>
             <Link to={'/UserLogin'} className='bg-black text-white font-bold rounded px-10 py-2'>Login</Link>
