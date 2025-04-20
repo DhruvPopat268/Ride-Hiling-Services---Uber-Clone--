@@ -25,11 +25,9 @@ const App = () => {
         <Route path='/CaptainSignup' element={<CaptainSignup />} />
         <Route path='/CaptainLogin' element={<CaptainLogin />} />
         <Route path='/UserHome' element={
-
           <UserProtectedWrapper>
             <UserHome />
           </UserProtectedWrapper>
-
         } />
 
         <Route path='/CaptainHome' element={

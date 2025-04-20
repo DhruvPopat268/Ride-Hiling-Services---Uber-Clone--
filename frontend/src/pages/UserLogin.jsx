@@ -17,7 +17,9 @@ const UserLogin = () => {
   const onsubmit = async (data) => {
     try {
 
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, data)
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, data , {
+        withCredentials: true
+      })
 
       if (response.status === 201) {
         dispatch(setFormData(data))
