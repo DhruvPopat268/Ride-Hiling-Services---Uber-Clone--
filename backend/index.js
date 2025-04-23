@@ -13,7 +13,7 @@ const captainRoutes = require('./routes/captain.routes')
 connectToDb();
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://ride-hiling-services-uber-clone-0fip.onrender.com',
     credentials: true
 }));
 app.use(cookieParser());
