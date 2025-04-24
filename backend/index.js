@@ -6,9 +6,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 const cookieParser = require('cookie-parser')
 
-const connectToDb = require('./db/db');
-const userRoutes = require('./routes/user.routes');
-const captainRoutes = require('./routes/captain.routes')
 
 connectToDb();
 const allowedOrigins = [
