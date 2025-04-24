@@ -13,9 +13,17 @@ const captainRoutes = require('./routes/captain.routes')
 connectToDb();
 
 app.use(cors({
-    origin: 'https://ride-hiling-services-uber-clone-0fip.onrender.com',
+    origin: (origin, callback) => {
+      if (origin && origin.endsWith('.onrender.com')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true
-}));
+  }));
+  
+
 app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
