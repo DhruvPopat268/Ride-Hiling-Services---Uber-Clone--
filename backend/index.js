@@ -5,7 +5,7 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 const cookieParser = require('cookie-parser')
-const {connectToDb} = require('./db/db')
+const connectToDb = require('./db/db')
 
 connectToDb();
 const allowedOrigins = [
