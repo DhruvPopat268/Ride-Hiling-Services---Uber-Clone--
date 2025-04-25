@@ -25,6 +25,7 @@ const App = () => {
         <Route path='/UserLogin' element={<UserLogin />} />
         <Route path='/CaptainSignup' element={<CaptainSignup />} />
         <Route path='/CaptainLogin' element={<CaptainLogin />} />
+        
         <Route path='/UserHome' element={
           <UserProtectedWrapper>
             <UserHome />

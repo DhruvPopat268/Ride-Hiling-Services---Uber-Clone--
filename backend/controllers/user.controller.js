@@ -42,6 +42,7 @@ module.exports.loginUser = async (req, res, next) => {
     }
 
     const { email, password } = req.body;
+    console.log(req.body)
 
     const user = await userModel.findOne({ email }).select('+password')
     console.log(user)
@@ -61,8 +62,8 @@ module.exports.loginUser = async (req, res, next) => {
 
     res.cookie('token', token, {
         httpOnly: true,
-        sameSite: 'Lax',
-        secure: false, // Only use true in production HTTPS
+        secure: true,
+        sameSite: 'None', // Only use true in production HTTPS
     });
 
     res.status(201).json({ token, user })
@@ -120,7 +121,7 @@ module.exports.authenticateUser = async (req, res, next) => {
 
         const user = await userModel.findById(req.user._id).select('-password');
         res.json({ user });
-        
+
     } catch (err) {
         res.status(401).json({ message: 'Invalid Token' });
     }

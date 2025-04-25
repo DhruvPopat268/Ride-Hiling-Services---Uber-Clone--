@@ -10,7 +10,6 @@ const UserProtectedWrapper = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_BASE_URL}/users/auth/user`, {
       withCredentials: true
