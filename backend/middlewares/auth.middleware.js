@@ -25,6 +25,7 @@ module.exports.authUser=async (req,res,next)=>{
  
         req.user = user;
 
+        res.status(201).json({message:"authorized"})
 
         return next();
     } 

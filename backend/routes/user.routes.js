@@ -21,9 +21,7 @@ router.post('/login', [
 
 router.get('/profile',authMiddleware.authUser , userController.getUserProfile)
 
-router.get('/auth/user', authMiddleware.authUser, (req, res) => {
-    res.status(201).json({ user: req.user, message: "authorized" });
-  })
+router.get('/auth/user', authMiddleware.authUser)
 
 router.post('/logout', userController.logoutUser)
 
