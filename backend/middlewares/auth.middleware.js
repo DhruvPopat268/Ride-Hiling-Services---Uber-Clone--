@@ -10,7 +10,7 @@ module.exports.authUser=async (req,res,next)=>{
     console.log(token)
 
     if(!token){
-        return res.status(401).json({message:'unauthorized'})
+        return res.status(401).json({message:'unauthorized 1'})
     }
 
     const isBlacklisted = await  blackListedModel.findOne({token:token})
@@ -30,7 +30,7 @@ module.exports.authUser=async (req,res,next)=>{
         return next();
     } 
     catch (err){
-        return res.status(401).json({message:'unauthorized'})
+        return res.status(401).json({message:'unauthorized 2'})
     }
 }
 

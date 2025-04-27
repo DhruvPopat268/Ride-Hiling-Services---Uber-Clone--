@@ -11,8 +11,7 @@ const captainRoutes = require('./routes/captain.routes')
 
 connectToDb();
 const allowedOrigins = [
-  'https://ride-hiling-services-uber-clone-0fip.onrender.com',
-  'http://localhost:3000'
+  'https://ride-hiling-services-uber-clone-0fip.onrender.com'
 ];
 
 app.use((req, res, next) => {

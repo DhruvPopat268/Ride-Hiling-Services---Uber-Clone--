@@ -63,7 +63,7 @@ module.exports.loginUser = async (req, res, next) => {
     res.cookie('token', token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'None', // Only use true in production HTTPS
+        sameSite: 'None'
     });
 
     res.status(201).json({ token, user })
@@ -87,9 +87,8 @@ module.exports.logoutUser = async (req, res, next) => {
         // Clear the cookie
         res.clearCookie('token', {
             httpOnly: true,
-            sameSite: 'Lax',
-            secure: false, // Only use true in production HTTPS
-
+            secure: true,
+            sameSite: 'None'
         });
 
         // Get the token from the cookie or authorization header
