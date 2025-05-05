@@ -10,37 +10,17 @@ const userRoutes = require('./routes/user.routes')
 const captainRoutes = require('./routes/captain.routes')
 
 connectToDb();
-// const allowedOrigins = [
-//   'https://ride-hiling-services-uber-clone-0fip.onrender.com'
-// ];
-
-// app.use((req, res, next) => {
-//   console.log('CORS Origin:', req.headers.origin); // Log the actual origin
-//   next();
-// });
-
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     // Allow requests with no origin (like curl or mobile apps)
-//     if (!origin) return callback(null, true);
-
-//     if (
-//       allowedOrigins.includes(origin) ||
-//       origin.endsWith('.onrender.com')
-//     ) {
-//       return callback(null, true);
-//     } else {
-//       console.log('Blocked by CORS:', origin); // Log which origin was blocked
-//       return callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true
-// }));
+// 
 
 app.use(cors({
-  origin:'https://ride-hiling-services-uber-clone-0fip.onrender.com',
-  credentials:true
-}))
+  origin: [
+    'https://ride-hiling-services-uber-clone-0fip.onrender.com', // Your Render frontend
+    'https://my.geotab.com', // MyGeoTab production
+    'https://my.geotab.com.au', // Alternate MyGeoTab domain
+    'https://my.geotab.ca' // Canadian domain
+  ],
+  credentials: true
+}));
 
 app.use(cookieParser());
 app.use(express.json())
